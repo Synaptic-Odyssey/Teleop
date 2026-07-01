@@ -1,12 +1,6 @@
-"""
-tracker.py
 
-Responsible for:
-    - Opening the webcam
-    - Running MediaPipe Hands
-    - Returning the raw hand landmarks
+#Responsible for: opening the webcam, running MediaPipe Hands, returning the raw hand landmarks
 
-"""
 
 import cv2
 import mediapipe as mp
@@ -22,17 +16,11 @@ class HandTracker:
         tracking_confidence: float = 0.7,
     ):
 
-        # -----------------------------
-        # Open webcam
-        # -----------------------------
         self.cap = cv2.VideoCapture(camera_index)
 
         if not self.cap.isOpened():
             raise RuntimeError("Could not open webcam.")
 
-        # -----------------------------
-        # Initialize MediaPipe
-        # -----------------------------
         self.mp_hands = mp.solutions.hands
 
         self.hands = self.mp_hands.Hands(
@@ -52,7 +40,6 @@ class HandTracker:
         if not success:
             return None
 
-        # Mirror the image so it behaves naturally.
         frame = cv2.flip(frame, 1)
 
         return frame
@@ -79,11 +66,7 @@ class HandTracker:
 
         if hand_landmarks is not None:
 
-            self.drawer.draw_landmarks(
-                frame,
-                hand_landmarks,
-                self.mp_hands.HAND_CONNECTIONS,
-            )
+            self.drawer.draw_landmarks(frame, hand_landmarks, self.mp_hands.HAND_CONNECTIONS,)
 
         return frame
 
